@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:insta_clone/resources/auth_method.dart';
+import 'package:insta_clone/screens/signup_screen.dart';
 import 'package:insta_clone/utils/colors.dart';
+import 'package:insta_clone/utils/utils.dart';
 import 'package:insta_clone/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,12 +16,28 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isloading = false;
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isloading = true;
+    });
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+    if (res == 'success') {
+    } else {
+      showSnakBar(res, context);
+    }
+    setState(() {
+      _isloading = false;
+    });
   }
 
   @override
@@ -54,21 +73,30 @@ class _LoginScreenState extends State<LoginScreen> {
                 isPass: true,
               ),
               const SizedBox(height: 32),
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(color: Colors.white),
-                ),
-                decoration: const ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4),
+              InkWell(
+                onTap: loginUser,
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: _isloading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        )
+                      : const Text(
+                          "Login",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                  decoration: const ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
                     ),
+                    color: blueColor,
                   ),
-                  color: blueColor,
                 ),
               ),
               const SizedBox(height: 18),
@@ -81,14 +109,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Container(
                     child: const Text("Don't have an account?"),
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
-                  Container(
-                    child: const Text(
-                      "Sign up",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SignUpScreen(),
+                      ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Container(
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                    ),
                   )
                 ],
               )
