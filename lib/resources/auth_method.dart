@@ -35,6 +35,7 @@ class AuthMethods {
             email: email, password: password);
         String profileUrl = await StorageMethods()
             .uploadImageToStorage('profilePics', file, false);
+
         model.User user = model.User(
           uid: cred.user!.uid,
           email: email,
@@ -44,7 +45,10 @@ class AuthMethods {
           followers: [],
           following: [],
         );
-        await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
+        await _firestore
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(user.toJson());
         res = "success";
       }
     } on FirebaseAuthException catch (e) {
