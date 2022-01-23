@@ -18,26 +18,26 @@ class User {
     required this.followers,
     required this.following,
   });
-  Map<String ,dynamic> toJson() => {
-    'email' : email,
-    'username' : username,
-    'bio' : bio,
-    'profilePicUrl' : profilePicUrl,
-    'uid' : uid,
-    'followers' : followers,
-    'following' : following,
-  };
+  Map<String, dynamic> toJson() => {
+        'email': email,
+        'username': username,
+        'bio': bio,
+        'profilePicUrl': profilePicUrl,
+        'uid': uid,
+        'followers': followers,
+        'following': following,
+      };
 
-  static User fromSnap(DocumentSnapshot snap){
-    var snapshot=snap.data() as Map<String,dynamic>;
+  static User fromSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
     return User(
-      uid:snapshot['uid'],
-      email:snapshot['email'],
-      username:snapshot['username'],
-      bio:snapshot['bio'],
-      profilePicUrl:snapshot['profilePicUrl'],
-      followers:snapshot['followers'],
-      following:snapshot['following'],
+      uid: snapshot['uid'],
+      email: snapshot['email'],
+      username: snapshot['username'],
+      bio: snapshot['bio'],
+      profilePicUrl: snapshot['profilePicUrl'],
+      followers: snapshot['followers'],
+      following: snapshot['following'],
     );
   }
 }
