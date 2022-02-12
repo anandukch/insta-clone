@@ -38,13 +38,13 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     // model.User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       body: PageView(
-        children: [
+        children: const [
           Text('Home'),
           Text('Profile'),
           Text('Search'),
           Text('Notifications'),
         ],
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: (int page) {
           setState(() {
